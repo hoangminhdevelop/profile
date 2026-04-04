@@ -35,8 +35,13 @@ const renderCertificateDetail = (doc) => {
     certDetailLink.setAttribute('href', doc.dataset.certLink);
   }
 
-  if (certDetailImage && doc.dataset.certImage) {
-    certDetailImage.setAttribute('src', doc.dataset.certImage);
+  if (certDetailImage) {
+    const thumbImage = doc.querySelector('img');
+    if (thumbImage && thumbImage.getAttribute('src')) {
+      certDetailImage.setAttribute('src', thumbImage.getAttribute('src'));
+    } else if (doc.dataset.certImage) {
+      certDetailImage.setAttribute('src', doc.dataset.certImage);
+    }
   }
 
   if (!prefersReducedMotion && certDetail) {
