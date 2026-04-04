@@ -53,6 +53,10 @@
           <a class="btn btn-secondary" href="#skills">View Skills</a>
           <a class="btn btn-secondary" href="https://www.linkedin.com/in/hoang-minh-truong/" target="_blank"
             rel="noopener noreferrer">LinkedIn</a>
+          <button class="btn btn-secondary music-toggle" type="button" data-music-toggle aria-pressed="false"
+            aria-label="Play background music">
+            <span class="music-label">Play Music</span>
+          </button>
         </div>
 
         <div id="contact" class="hero-contact" aria-label="Contact information">
@@ -70,6 +74,7 @@
         <div class="hero-orbit hero-orbit-a"></div>
         <div class="hero-orbit hero-orbit-b"></div>
         <figure class="hero-avatar-wrap" data-hero-avatar-wrap>
+          <div class="vinyl" aria-hidden="true"></div>
           <img class="hero-avatar" src="/asset/images/avatar-3d.png" alt="3D avatar portrait of Hoang Minh Truong"
             width="1024" height="1024" decoding="async" loading="eager">
         </figure>
@@ -317,6 +322,10 @@
       </div>
     </section>
   </main>
+
+  <!-- Background audio (place MP3 at ./asset/audio/prettyjohn1-chill-chill-music-505125.mp3) -->
+  <audio id="bg-audio" src="./asset/audio/prettyjohn1-chill-chill-music-505125.mp3" loop preload="auto"
+    aria-hidden="true"></audio>
 
   <script type="module" src="/main.js"></script>
 </body>

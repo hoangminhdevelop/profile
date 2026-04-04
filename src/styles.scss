@@ -27,6 +27,7 @@ body {
   font-family: var(--font-body);
   color: var(--text);
   background-color: var(--bg);
+  padding-bottom: 4rem;
   transition:
     background 0.4s ease,
     color 0.3s ease;
@@ -186,6 +187,18 @@ h1 {
   color: var(--text);
   border-color: var(--line);
   background: var(--surface-2);
+}
+
+.music-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.56rem;
+}
+
+.music-toggle.is-playing {
+  border-color: color-mix(in srgb, var(--accent-strong) 55%, var(--line));
+  background: color-mix(in srgb, var(--surface-2) 82%, #1f1f1f);
+  color: var(--accent-strong);
 }
 
 .hero-stage {
@@ -580,20 +593,7 @@ h1 {
   pointer-events: none;
 }
 
-.project-card:hover {
-  transform: translateY(-3px);
-  border-color: color-mix(in srgb, var(--accent-strong) 38%, var(--line));
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
-}
-
-.project-card:hover a {
-  color: var(--text);
-  background: color-mix(in srgb, var(--accent-strong) 14%, transparent);
-}
-
-.project-card:hover a::before {
-  transform: translateX(0%);
-}
+/* Hover interactions for project cards removed (no visual shift on hover) */
 
 .cert-intro {
   margin: 0.65rem 0 0;
@@ -724,6 +724,7 @@ button,
     background 0.2s ease,
     border-color 0.2s ease,
     transform 0.2s ease;
+  cursor: pointer;
 }
 
 a:focus-visible,

@@ -64,6 +64,57 @@ certDocs.forEach((doc) => {
 });
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const musicToggleButton = document.querySelector('[data-music-toggle]');
+
+const initMusicToggle = () => {
+  if (!musicToggleButton) {
+    return;
+  }
+  const audioEl = document.getElementById('bg-audio');
+  let isPlaying = false;
+
+  const setMusicState = (playing) => {
+    isPlaying = playing;
+    musicToggleButton.classList.toggle('is-playing', playing);
+    musicToggleButton.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    const labelEl = musicToggleButton.querySelector('.music-label');
+    if (labelEl) {
+      labelEl.textContent = playing ? 'Pause Music' : 'Play Music';
+    }
+    musicToggleButton.setAttribute('aria-label', playing ? 'Pause background music' : 'Play background music');
+  };
+
+  const playAudio = async () => {
+    if (audioEl) {
+      try {
+        await audioEl.play();
+        setMusicState(true);
+      } catch {
+        setMusicState(false);
+      }
+      return;
+    }
+
+    // No audio element available — keep UI toggle but don't attempt fallback audio generation
+    setMusicState(false);
+  };
+
+  const pauseAudio = () => {
+    if (audioEl) {
+      audioEl.pause();
+    }
+    setMusicState(false);
+  };
+
+  musicToggleButton.addEventListener('click', async () => {
+    if (isPlaying) {
+      pauseAudio();
+      return;
+    }
+
+    await playAudio();
+  });
+};
 
 const initSmoothScrollStack = () => {
   if (prefersReducedMotion) {
@@ -298,6 +349,7 @@ const runHeroAnimations = () => {
 runAfterAssetsReady(() => {
   initSmoothScrollStack();
   initScrollReveal();
+  initMusicToggle();
   runHeroAnimations();
   initSkillsScrollReveal();
 });
