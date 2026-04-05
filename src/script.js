@@ -1,9 +1,5 @@
 import { animate, spring } from 'motion';
 import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const certDocs = document.querySelectorAll('.cert-doc');
 const certDetailTitle = document.querySelector('[data-cert-detail-title]');
@@ -111,7 +107,7 @@ const initMusicToggle = () => {
     setMusicState(false);
   };
 
-  musicToggleButton.addEventListener('click', async () => {
+  musicToggleButton.addEventListener('click', async () => {``
     if (isPlaying) {
       pauseAudio();
       return;
@@ -130,20 +126,9 @@ const initSmoothScrollStack = () => {
 
   const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
   const lenis = new Lenis({
-    duration: isCoarsePointer ? 0.95 : 1.15,
-    smoothWheel: true,
-    syncTouch: true,
-    touchMultiplier: 1.05,
-    wheelMultiplier: isCoarsePointer ? 0.9 : 1,
+    autoRaf: true,
+    duration: 1.2,
   });
-
-  lenis.on('scroll', ScrollTrigger.update);
-
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
-
-  gsap.ticker.lagSmoothing(0);
 
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (event) => {
@@ -170,7 +155,7 @@ const initSmoothScrollStack = () => {
 };
 
 const initScrollReveal = () => {
-  const revealBlocks = gsap.utils.toArray('.reveal');
+  const revealBlocks = Array.from(document.querySelectorAll('.reveal'));
   if (revealBlocks.length === 0) {
     return;
   }
@@ -180,16 +165,25 @@ const initScrollReveal = () => {
     return;
   }
 
+  if (!('IntersectionObserver' in window)) {
+    revealBlocks.forEach((block) => block.classList.add('is-inview'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle('is-inview', entry.isIntersecting);
+      });
+    },
+    {
+      threshold: 0.14,
+      rootMargin: '0px 0px -16% 0px',
+    }
+  );
+
   revealBlocks.forEach((block) => {
-    ScrollTrigger.create({
-      trigger: block,
-      start: 'top 84%',
-      end: 'bottom 16%',
-      onEnter: () => block.classList.add('is-inview'),
-      onLeave: () => block.classList.remove('is-inview'),
-      onEnterBack: () => block.classList.add('is-inview'),
-      onLeaveBack: () => block.classList.remove('is-inview'),
-    });
+    observer.observe(block);
   });
 };
 
